@@ -1,0 +1,55 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean package -DskipTests"
+   }
+
+  // stage('sonar quality analysis') {
+  //       withSonarQubeEnv('My SonarQube Server') {
+  //          sh "mvn sonar:sonar"
+  //       }
+  //  }
+
+  // stage('Unit Test') {
+  //     sh "mvn test"
+  // }
+
+   def bookappointmentVersion
+   stage ('create Image Version'){
+   bookappointmentVersion = sh (
+   script: 'echo "v1"',
+   returnStdout: true,
+      )
+   }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('k8s/bookappointmentservice', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'k8s') {
+           dockerImage.push "${bookappointmentVersion}"
+         }
+      }
+      
+   stage('delete docker Image') {
+       sh "docker rmi k8s/bookappointmentservice"
+       sh "docker rmi 172.16.11.166:37719/k8s/bookappointmentservice:${bookappointmentVersion}"
+       }
+
+                 
+       
+   }
+

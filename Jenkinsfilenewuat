@@ -1,0 +1,22 @@
+node {
+
+ stage('checkout') {
+       checkout scm
+   }
+ 
+ stage('Set Terraform path') {
+ script {
+ def tfHome = tool name: "Terraform"
+ env.PATH = "${tfHome}:${env.PATH}"
+  }
+ sh "terraform -version"
+ 
+ }
+
+ stage('Deploy on New UAT Env') {
+       sh "cd deploy_new_uat/ && terraform init"
+       sh "cd deploy_new_uat/ && terraform apply -auto-approve -var Version=${Version}"
+       sh "cd deploy_new_uat/ && svn commit -m 'store terraform state file'"
+       }
+      
+}

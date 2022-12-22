@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<configuration packgingData="true" scan="true">
+	<contextName>book-appointment-service</contextName>
+	<property name="LOGS" value="./logs" />
+	<springProperty scope="context" name="app_name"
+		source="spring.application.name" />
+
+	<appender name="Console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d] %-5level ${app_name}, %X{clientIp}, [%thread], %X{X-B3-TraceId:-}, %X{X-B3-SpanId:-} , %logger{0} %M | %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="RollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS}/book-appointment-service.log</file>
+
+		<encoder
+			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<pattern>[%d] %-5level ${app_name}, %X{clientIp}, [%thread], %X{X-B3-TraceId:-}, %X{X-B3-SpanId:-} , %logger{0} %M | %msg%n</pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily and when the file reaches 10 MegaBytes -->
+			<fileNamePattern>${LOGS}/archived/book-appointment-service-%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+
+	<!-- START : POC For Kibana Loggers -->
+
+
+	<appender name="STASH"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logback/book-appointment-service.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logback/book-appointment-service.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+	</appender>
+	<!-- <root level="DEBUG"> <appender-ref ref="STASH" /> </root> -->
+
+
+	<!-- <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender"> 
+		<destination>192.168.99.100:5000</destination> <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder"> 
+		<providers> <mdc /> <context /> <logLevel /> <loggerName /> <pattern> <pattern> 
+		{ "serviceName": "account-service" } </pattern> </pattern> <threadName /> 
+		<message /> <logstashMarkers /> <stackTrace /> </providers> </encoder> </appender> -->
+
+	<!-- END : POC For Kibana Loggers -->
+
+
+
+
+	<!-- LOG everything at INFO level -->
+
+	<root level="info">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+		<appender-ref ref="STASH" />
+	</root>
+</configuration>

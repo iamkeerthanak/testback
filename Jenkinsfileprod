@@ -1,0 +1,62 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean package -DskipTests"
+   }
+
+  // stage('Unit Test') {
+  //     sh "mvn test"
+  // }
+
+   def Version
+   stage ('create Image Version'){
+   Version = sh (
+   script: "date +'%Y-%m-%d-%H.%M'",
+   returnStdout: true,
+      )
+   }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('teleprod/book_appointment', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'teleprod') {
+           dockerImage.push "${Version}"
+         }
+      }
+      
+   stage('delete docker Image') {
+       sh "docker rmi teleprod/book_appointment"
+       sh "docker rmi 172.16.11.166:37719/teleprod/book_appointment:${Version}"
+       }
+
+   stage('Set Terraform path') {
+ script {
+ def tfHome = tool name: "Terraform"
+ env.PATH = "${tfHome}:${env.PATH}"
+  }
+ sh "terraform -version"
+ 
+ }
+
+   stage('Deploy on Prod Env') {
+       sh "cd deploy/ && terraform init"
+       sh "cd deploy/ && terraform apply -auto-approve -var Version=${Version}"
+       sh "cd deploy/ && svn commit -m 'store terraform state file'"
+       }              
+       
+   }
+
