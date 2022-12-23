@@ -32,6 +32,10 @@ jobs:
         #cache: maven
     - name: Build image
       run: cp -R docker target/ && cp target/*.jar docker/
+    - name: Build Container image
+      run: docker build . --file docker/Dockerfile -t bookappointment:latest
+    - name: docker push
+      run: docker push http://13.235.128.159:8081/maven-releases
       
     #- name: Build & push Docker image
      # uses: mr-smithers-excellent/docker-build-push@v5
