@@ -36,8 +36,8 @@ jobs:
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: dineshk1925/nsdl/book-aapointment
-        tags: latest
+        image: dineshk1925/nsdl/
+        tags: book-aapointment
         registry: docker.io
         dockerfile: docker/Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
