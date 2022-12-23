@@ -16,7 +16,7 @@ ENV spring_config_label_env=${spring_config_label}
 
 #RUN cp /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && echo "Asia/Kolkata" > /etc/TZ
 
-copy ./book-appointment-service-*.jar book-appointment-service.jar
+copy docker/book-appointment-service-*.jar book-appointment-service.jar
 
 EXPOSE 7072
 
