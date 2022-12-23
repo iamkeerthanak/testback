@@ -1,4 +1,4 @@
-FROM 172.16.11.166:37720/openjdk:8-jdk-alpine
+FROM openjdk:8-jdk-alpine
 
 ARG spring_config_label
 
@@ -12,7 +12,7 @@ ENV spring_config_url_env=${spring_config_url}
 
 ENV spring_config_label_env=${spring_config_label}
 
-RUN export http_proxy=http://172.16.11.167:3128 && export https_proxy=http://172.16.11.167:3128 && apk add tzdata
+#RUN export http_proxy=http://172.16.11.167:3128 && export https_proxy=http://172.16.11.167:3128 && apk add tzdata
 
 RUN cp /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && echo "Asia/Kolkata" > /etc/TZ
 
