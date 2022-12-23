@@ -34,6 +34,9 @@ jobs:
       run: cp -R docker target/ && cp target/*.jar docker/
     - name: Build Container image
       run: docker build . --file docker/Dockerfile -t bookappointment:latest
+    - name: nexus login
+      run:
+         docker login -u admin -p admin123
     - name: docker push
       run: docker push http://13.235.128.159:8081/maven-releases
       
