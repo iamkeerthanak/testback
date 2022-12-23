@@ -14,7 +14,7 @@ ENV spring_config_label_env=${spring_config_label}
 
 #RUN export http_proxy=http://172.16.11.167:3128 && export https_proxy=http://172.16.11.167:3128 && apk add tzdata
 
-RUN cp /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && echo "Asia/Kolkata" > /etc/TZ
+#RUN cp /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && echo "Asia/Kolkata" > /etc/TZ
 
 copy ./book-appointment-service-*.jar book-appointment-service.jar
 
