@@ -35,7 +35,7 @@ jobs:
     - name: Build Container image
       run: docker build . --file docker/Dockerfile -t bookappointment:latest 
     - name: tag image 
-      run: docker tag bookappointment:latest 35.154.152.112:8081/java-maven-project/bookappointment:latest
+      run: docker --tag bookappointment:latest 35.154.152.112:8081/java-maven-project/bookappointment:latest
     - name: push Docker image
       with:
          serverUrl: http://35.154.152.112:8081/
