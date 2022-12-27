@@ -34,10 +34,17 @@ jobs:
       run: cp -R docker target/ && cp target/*.jar docker/
     - name: Build Container image
       run: docker build . --file docker/Dockerfile -t bookappointment:latest 
-    #- name: tag image 
-    #  run: docker tag bookappointment:latest 35.154.152.112:8081/java-maven-project/bookappointment:latest
-    #- name: nexus login
-    #  run:
+    - name: tag image 
+      run: docker tag bookappointment:latest 35.154.152.112:8081/java-maven-project/bookappointment:latest
+    - name: push Docker image
+      with:
+         serverUrl: http://35.154.152.112:8081/
+        sername: admin
+        password: ${{ secrets.password }}
+        format: docker
+        repository: maven-releases
+        run: docker image push 35.154.152.112:8081/java-maven-project/bookappointment:latest
+#  run:
     #     docker login -u admin -p admin123
     #- name: docker push
      # run: docker push http://13.235.128.159:8081/maven-releases
@@ -52,17 +59,17 @@ jobs:
      #   username: ${{ secrets.DOCKER_USERNAME }}
      #   password: ${{ secrets.DOCKER_PASSWORD }}    
         
-    - name: Nexus Repo Publish
-      uses: sonatype-nexus-community/nexus-repo-github-action@master
-      with:
-        serverUrl: http://35.154.152.112:8081/
-        username: admin
-        password: ${{ secrets.password }}
-        format: docker
-        repository: maven-releases
-        coordinates: directory=nexus-repo-github-action-test-rawrepodir
-        assets: filename=bookappointment:latest
-        filename: bookappointment:latest
+ #   - name: Nexus Repo Publish
+ #     uses: sonatype-nexus-community/nexus-repo-github-action@master
+ #     with:
+ #       serverUrl: http://35.154.152.112:8081/
+ #       username: admin
+ #       password: ${{ secrets.password }}
+ #       format: docker
+ #       repository: maven-releases
+ #       coordinates: directory=nexus-repo-github-action-test-rawrepodir
+ #       assets: filename=bookappointment:latest
+ #       filename: bookappointment:latest
         
         
     #- name: Build Container image
