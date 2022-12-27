@@ -62,7 +62,7 @@ jobs:
         repository: maven-releases
         coordinates: directory=nexus-repo-github-action-test-rawrepodir
         assets: filename=bookappointment:latest
-        filename: */bookappointment:latest
+        filename: /var/lib/docker/*/*
         
         
     #- name: Build Container image
