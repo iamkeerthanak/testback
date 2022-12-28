@@ -34,11 +34,10 @@ jobs:
       run: cp -R docker target/ && cp target/*.jar docker/
     - name: Build Container image
       run: docker build . --file docker/Dockerfile -t bookappointment:latest 
-    #- name: Build the docker image
-    #   run: docker build . --file Dockerfile --tag maxhunt/demo:latest
+
     - name: Push the image to nexus repo
-      run: |
-       docker login -u admin -p ${{ secrets.NEXUS_PASSWORD }} https://3.7.248.35:8083
+      run:
+       docker login -u admin -p ${{ secrets.NEXUS_PASSWORD }} http://3.7.248.35:8083
        docker tag bookappointment:latest 3.7.248.35:8083/java-maven-project/bookappointment:v1
        docker push 3.7.248.35:8083/java-maven-project/bookappointment:v1
 
