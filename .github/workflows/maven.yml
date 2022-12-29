@@ -57,7 +57,7 @@ jobs:
         cd deploy && terraform init
         cd deploy/ && terraform apply -auto-approve
         cd deploy/ && git commit -m 'store terraform state file'
-        cd deploy/ && git psh
+        cd deploy/ && git push
 
 #- name: tag image 
     #  run: docker --tag bookappointment:latest 35.154.152.112:8081/c/bookappointment:latest
