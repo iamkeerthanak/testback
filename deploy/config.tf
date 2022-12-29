@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.14"
+  required_version = ">= 0.13"
   provider "docker" {
     host = "tcp://172.21.11.163:2376/"
 
