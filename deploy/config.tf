@@ -1,7 +1,7 @@
 provider "docker" {
-  version = "2.24.0"
+  version = "~> 2.24.0"
   host = "tcp://172.21.11.163:2376/"
-
+  
 registry_auth {
     address = "172.16.11.166:37719"
     config_file = "${pathexpand("~/.docker/config.json")}"
