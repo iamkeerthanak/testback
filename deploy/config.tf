@@ -1,14 +1,13 @@
-terraform {
-  required_version = ">= 0.13"
-  provider "docker" {
-    host = "tcp://172.21.11.163:2376/"
+provider "docker" {
+  version = "2.24.0"
+  host = "tcp://172.21.11.163:2376/"
 
-  registry_auth {
-      address = "172.16.11.166:37719"
-      config_file = "${pathexpand("~/.docker/config.json")}"
-    }
+registry_auth {
+    address = "172.16.11.166:37719"
+    config_file = "${pathexpand("~/.docker/config.json")}"
   }
 }
+
 #resource "docker_service" "book_appointment" {
 #  name = "book_appointment"
 #
