@@ -15,6 +15,8 @@ jobs:
           tf_actions_subcommand: 'init'
           tf_actions_working_dir: '.'
           tf_actions_comment: true
+      - name: 'Terraform validate'
+        run: terraform validate
 
       
          
