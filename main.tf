@@ -32,7 +32,7 @@ resource "docker_service" "book_appointment" {
   }
   }
 }
-}
+
 update_config {
   parallelism       = 1
   delay             = "10s"
