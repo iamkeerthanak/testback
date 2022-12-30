@@ -19,6 +19,11 @@ jobs:
          terraform init
          terraform validate
          terraform plan
+          with:
+           path: .
+         
+         
+         
      # cd deploy/ && terraform apply -auto-approve
        # cd deploy/ && git commit -m 'store terraform state file'
        # cd deploy/ && git push
