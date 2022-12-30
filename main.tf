@@ -1,3 +1,4 @@
+terraform {
 provider "docker" {
   version = "2.24.0"
   #version = "~> 2.24.0"
@@ -48,5 +49,7 @@ endpoint_spec {
     target_port = "7079"
     published_port = "7079"
      }
+   }
 }
+  
 
