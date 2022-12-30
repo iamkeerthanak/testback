@@ -16,8 +16,8 @@ jobs:
       #terraform_version: 1.3.6
     - name: Deploy on Production
       run: |
-        cd deploy/ && terraform init
-        cd deploy/ && terraform validate
+         terraform init
+         terraform validate
        # cd deploy/ && terraform apply -auto-approve
        # cd deploy/ && git commit -m 'store terraform state file'
        # cd deploy/ && git push
