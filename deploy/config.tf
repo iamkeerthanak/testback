@@ -1,9 +1,9 @@
 provider "docker" {
   version = "~> 2.24.0"
-  host = "tcp://172.21.11.163:2376/"
+  host = "tcp://65.1.106.222/"
   
 registry_auth {
-    address = "172.16.11.166:37719"
+    address = "3.109.122.168:8083"
     config_file = "${pathexpand("~/.docker/config.json")}"
   }
 }
@@ -13,10 +13,10 @@ registry_auth {
 #
 #  task_spec {
 #    container_spec {
-#      image = "172.16.11.166:37719/teleprod/book_appointment:${var.Version}"
+#      image = "65.1.106.222/teleprod/book_appointment:${var.Version}"
 #      env = {
 #        active_profile_env= "prod"
-#        spring_config_url_env= "http://10.130.28.27:51000/config"
+#        spring_config_url_env= "http://65.1.106.222/config"
 #        spring_config_label_env= "1.0.0"
 #        }
 #      mounts {
