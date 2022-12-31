@@ -33,14 +33,14 @@ node {
    }
 
    stage('publish docker') {
-       docker.withRegistry('http://172.16.11.166:37719', 'teleprod') {
+       docker.withRegistry('http://65.1.106.222:8083', 'teleprod') {
            dockerImage.push "${Version}"
          }
       }
       
    stage('delete docker Image') {
        sh "docker rmi teleprod/book_appointment"
-       sh "docker rmi 172.16.11.166:37719/teleprod/book_appointment:${Version}"
+       sh "docker rmi 65.1.106.222/teleprod/book_appointment:${Version}"
        }
 
    stage('Set Terraform path') {
